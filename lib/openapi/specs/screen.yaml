@@ -1,0 +1,130 @@
+openapi: "3.0.0"
+info:
+  title: Screen data components
+  version: 1.0.0
+paths: {}
+
+components:
+  schemas:
+    DataInfo:
+      type: object
+      properties:
+        region:
+          type: string
+        language:
+          type: string
+
+    Landing:
+      type: object
+      required:
+        - dataInfo
+        - logo
+      properties:
+        dataInfo:
+          $ref: '#/components/schemas/DataInfo'
+        logo:
+          $ref: 'models-screen.yaml#/components/schemas/LineItem'
+        banners:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Banner'
+
+    DashCommon:
+      type: object
+      required:
+        - header
+        - pageInfo
+        - lastUpdate
+        - headList
+      properties:
+        header:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/LineItem'
+        lastUpdate:
+          type: integer
+          format: int64
+        headList:
+          $ref: 'models-brief.yaml#/components/schemas/HeaderList'
+        topAction:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/TextLink'
+        filterOpt:
+          type: array
+          items:
+            type: string
+        refs:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+
+    DashBoard:
+      type: object
+      required:
+        - common
+        - itemKey
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        common:
+          $ref: '#/components/schemas/DashCommon'
+        searchKw:
+          type: array
+          items:
+            type: string
+        daily:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        onGoing:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        done:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        tailLink:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/TextLink'
+
+    KeoDash:
+      type: object
+      required:
+        - common
+        - itemKey
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        common:
+          $ref: '#/components/schemas/DashCommon'
+        deals:
+          $ref: 'models-brief.yaml#/components/schemas/HeaderList'
+
+    SellerDash:
+      type: object
+      required:
+        - common
+        - itemKey
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        common:
+          $ref: '#/components/schemas/DashCommon'
+        sellers:
+          $ref: 'models-brief.yaml#/components/schemas/HeaderList'
+
+    BuyerDash:
+      type: object
+      required:
+        - common
+        - itemKey
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        common:
+          $ref: '#/components/schemas/DashCommon'
+        buyers:
+          $ref: 'models-brief.yaml#/components/schemas/HeaderList'

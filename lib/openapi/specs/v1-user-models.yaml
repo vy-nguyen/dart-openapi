@@ -1,0 +1,76 @@
+openapi: "3.0.2"
+info:
+  title: SealTrust User Models
+  version: "1.1.0"
+paths: {}
+components:
+  schemas:
+    SyncDashBoard:
+      type: object
+      required:
+        - userUuid
+        - dashSeqNo
+        - lastSyncTime
+      properties:
+        userUuid:
+          type: string
+        dashSeqNo:
+          type: integer
+        lastSyncTime:
+          type: integer
+          format: int64
+        lowSeq:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoSeqItem'
+        prodHiSeq:
+          type: integer
+          format: int64
+        servHiSeq:
+          type: integer
+          format: int64
+        dealsHiSeq:
+          type: integer
+          format: int64
+        catsHiSeq:
+          type: integer
+          format: int64
+        followHiSeq:
+          type: integer
+          format: int64
+        peerHiSeq:
+          type: integer
+          format: int64
+        sellerHiSeq:
+          type: integer
+          format: int64
+        buyerHiSeq:
+          type: integer
+          format: int64
+        regionSeq:
+          type: integer
+          format: int64
+        newsHiSeq:
+          type: integer
+          format: int64
+        topicHiSeq:
+          type: integer
+          format: int64
+        msgHiSeq:
+          type: integer
+          format: int64
+        notifyHiSeq:
+          type: integer
+          format: int64
+
+    LoSeqItem:
+      type: object
+      required:
+        - key
+        - loSeq
+      properties:
+        key:
+          type: string
+        loSeq:
+          type: integer
+          format: int64

@@ -1,0 +1,1113 @@
+paths:
+  /dashboard:
+    post:
+      summary: Endpoint /dashboard - Synch up to get new dashboard data for the user.
+      operationId: postDashBoard
+      requestBody:
+        description: DashBoard synchronization form.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'v1-user-models.yaml#/components/schemas/SyncDashBoard'
+      responses:
+        '200':
+          description: V1 user dashboard to deliver new data the user does not have.
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/DashBoard'
+
+  ###  Seller Profile  ### ###########################################################
+  ##
+  /profile/seller:
+    post:
+      summary: Endpoint /profile/seller - Post or update seller profile.
+      operationId: postProfileSeller
+      requestBody:
+        description: Form to create or update a seller profile
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-user.yaml#/components/schemas/SellerProfile'
+      responses:
+        '200':
+          description: updated seller profile
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/SellerProfile'
+
+  /profile/seller/{id}:
+    get:
+      summary: Endpoint /profile/seller/{id} - Get profile info about a seller.
+      operationId: getProfileSeller
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user generated id or hashId, no id means get the default from current user.
+          schema:
+            type: string
+        - name: uuid
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: seller profile info.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/SellerProfile'
+
+  /profile/delete/seller/{id}:
+    get:
+      summary: Endpoint /profile/delete/seller/{id} - Delete a seller based on id.
+      operationId: getProfileDeleteSeller
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: seller hashId to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: SellerProfile info
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/SellerProfile'
+
+  /profile/op/seller:
+    post:
+      summary: Endpoint /profile/op/seller - Post to add or remove list of items to SellerProfile.
+      operationId: postProfileOpSeller
+      requestBody:
+        description: list of itemIds to add or remove to/from the profile.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: return updated detail about the SellerProfile.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/SellerProfile'
+
+  /profile/refs/seller/{id}:
+    get:
+      summary: Endpoint /profile/refs/seller/{id} - get all refs id from a server.
+      operationId: getProfileRefsSeller
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: seller hashId or owner uuid.
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          description: default page is 0
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: return seller refs page
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemIdPage'
+
+  /profile/list/seller/{region}:
+    get:
+      summary: Endpoint /profile/list/seller - Get list of seller ids from a region.
+      operationId: profileListSellerRegion
+      parameters:
+        - name: region
+          in: path
+          required: true
+          description: region id such as dn-vn.
+          schema:
+            type: string
+        - name: regCode
+          in: query
+          required: true
+          description: region code such as vi or us
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          description: next page to get
+          schema:
+            type: integer
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo marker, only get sellers newer than this seqNo
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: seller uuid list.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemIdPage'
+
+  ###  Buyer Profile  ### ############################################################
+  ##
+  /profile/buyer:
+    post:
+      summary: Endpoint /profile/buyer - Post or update buyer profile.
+      operationId: postProfileBuyer
+      requestBody:
+        description: Form to create or update a buyer profile
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-user.yaml#/components/schemas/BuyerProfile'
+      responses:
+        '200':
+          description: updated buyer profile
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/BuyerProfile'
+
+  /profile/buyer/{id}:
+    get:
+      summary: Endpoint /profile/buyer/{id} - Get profile info about a buyer.
+      operationId: getBuyerProfile
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user id, no id means current user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: buyer profile info.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/BuyerProfile'
+
+  /profile/op/buyer:
+    post:
+      summary: Endpoint /profile/op/buyer - Post to add or remove list of items to BuyerProfile.
+      operationId: postProfileOpBuyer
+      requestBody:
+        description: list of itemIds to add or remove to/from the profile.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: return updated detail about the BuyerProfile.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/BuyerProfile'
+
+  /profile/list/buyer/{region}:
+    get:
+      summary: Endpoint /buyer/list - Get list of buyer ids from a region.
+      operationId: profileListBuyerRegion
+      parameters:
+        - name: region
+          in: path
+          required: true
+          description: region id such as dongnai.
+          schema:
+            type: string
+        - name: regCode
+          in: query
+          required: true
+          description: region code such as vi, us.
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          description: next page to get
+          schema:
+            type: integer
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo marker, only get buyers newer than this seqNo
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: buyer uuid list
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemIdPage'
+
+  ###  User/Customer Profile  ### ####################################################
+  ##
+  /profile/op/user:
+    post:
+      summary: Endpoint /profile/op - Post to add or remove list of items to the user.
+      operationId: postProfileOpUser
+      requestBody:
+        description: list of itemIds to add or remove to/from the user.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+        example:
+          ItemIdList:
+            op: add [remove]
+            regCode: 'vi'
+            opUuid: userUuid
+            records:
+              - uuid, kind
+      responses:
+        '200':
+          description: return updated detail about the user, only having refs set.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/CUser'
+
+  /profile/list/customer/{region}:
+    get:
+      summary: Endpoint /profile/list/customer - Get list of customer ids from a region.
+      operationId: profileListCustomerRegion
+      parameters:
+        - name: region
+          in: path
+          required: true
+          description: region id such as dn-vn.
+          schema:
+            type: string
+        - name: regCode
+          in: query
+          required: true
+          description: region code such as vi or us
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          description: next page to get
+          schema:
+            type: integer
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo marker, only get buyers newer than this seqNo
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: customer uuid list.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemIdPage'
+
+  /profile/customer/{id}:
+    get:
+      summary: Endpoint /profile/info/{id} - Get customer profile, common for both seller and buyer.
+      operationId: getProfileCustomer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user uuid, null to get current login user
+          schema:
+            type: string
+      responses:
+        '200':
+          description: customer account profile.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/CustProfile'
+
+  /profile/user/{id}:
+    get:
+      summary: Endpoint /profile/user/{id} - Get customer property info containing ids relevant to the user; common for both seller and buyer.
+      operationId: getProfileUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user id, no id means current user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: customer property info.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/CUser'
+
+  /profile/customer:
+    post:
+      summary: Endpoint /profile/user - Post customer profile.
+      operationId: postProfileUser
+      requestBody:
+        description: post form to update customer profile.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-user.yaml#/components/schemas/CustProfile'
+      responses:
+        '200':
+          description: updated customer profile info.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/CustProfile'
+
+  ###  Product  ### ##################################################################
+  ##
+  /product:
+    post:
+      summary: Endpoint /product - Post to create or update info about a product.
+      operationId: postProduct
+      requestBody:
+        description: Post partial or full form about the product.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-user.yaml#/components/schemas/Product'
+      responses:
+        '200':
+          description: full product info about the product.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Product'
+
+  /product/info/{id}:
+    get:
+      summary: Endpoint /product/info/{id} - Get product that user sell/buy from id
+      operationId: getProductInfo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: product id, no id means get the product from the login user.
+          schema:
+            type: string
+        - name: userid
+          in: query
+          required: true
+          description: user id to get product from the user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product brief info
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Product'
+
+  /product/refs/{id}:
+    get:
+      summary: Endpoint /product/refs/{id} - get all refs id from a product.
+      operationId: getProductRefs
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: product hashId or user generated.
+          schema:
+            type: string
+        - name: owner
+          in: path
+          required: true
+          description: owner uuid if product id is user generated.
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          description: default page is 0
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: return product refs page
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemIdPage'
+
+  /product/delete/{id}:
+    get:
+      summary: Endpoint /product/delete/{id} - Delete a product based on id.  The product is placed in different anchor.
+      operationId: getProductDelete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: product id to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product info
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Product'
+
+  /product/list/{region}:
+    get:
+      summary: Endpoint /product/list - Get list of product ids available in a region.
+      operationId: getProductListRegion
+      parameters:
+        - name: region
+          in: path
+          required: true
+          description: region id such as dn-vn.
+          schema:
+            type: string
+        - name: regCode
+          in: query
+          required: true
+          description: region code such as vi, us
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          description: next page to get
+          schema:
+            type: integer
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo marker, only get products newer than this seqNo
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: list of product ids.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemIdPage'
+
+  /product/op:
+    post:
+      summary: Endpoint /product/op - Post to add or remove list of items to the product.
+      operationId: getProductOp
+      requestBody:
+        description: list of itemIds to add or remove to/from the product.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+        example:
+          ItemIdList:
+            op: add [remove]
+            regCode: none
+            opUuid: productUuid
+            records:
+              - uuid, kind
+      responses:
+        '200':
+          description: return updated detail about the product, only having the refs returned.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Product'
+
+  /products/{id}:
+    get:
+      summary: Endpoint /products/{id} - Get the next of user products header
+      operationId: getProductsPage
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user uuid
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          description: next page, no argument means page 0.
+          schema:
+            type: integer
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo marker, only get products newer than this seqNo
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: List of products
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/ProductList'
+
+  ###  Deal  ### ######################################################################
+  ##
+  /deal/info/{id}:
+    get:
+      summary: Endpoint /deal/info/{id} - Get the deal info from id
+      operationId: getDealInfo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: deal id generated by user or returned hashId.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deal detail
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/KeoFull'
+
+  /deal/info:
+    post:
+      summary: Endpoint /deal/info - Post or update a deal (keo)
+      operationId: postDealInfo
+      requestBody:
+        description: full or partial form about the deal.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-user.yaml#/components/schemas/KeoFull'
+      responses:
+        '200':
+          description: update info about the deal.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/KeoFull'
+
+  /deal/delete/{id}:
+    get:
+      summary: Endpoint /deal/delete/{id} - Delete a deal based on id.
+      operationId: getDealDelete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: deal id to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deal detail
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/KeoFull'
+
+  /deal/op:
+    post:
+      summary: Endpoint /deal/op - Post to add or remove list of items to the deal.
+      operationId: postDealOp
+      requestBody:
+        description: list of itemIds to add or remove to/from the deal.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+        example:
+          ItemIdList:
+            op: add [remove]
+            regCode: none
+            opUuid: dealUuid
+            records:
+              - uuid, kind
+      responses:
+        '200':
+          description: return updated detail about the deal.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/KeoFull'
+
+  /deal/list/{region}:
+    get:
+      summary: Endpoint /deal/list/{region} - Get list of deal ids available in a region.
+      operationId: getDealListRegion
+      parameters:
+        - name: region
+          in: path
+          required: true
+          description: region id such as dongnai.
+          schema:
+            type: string
+        - name: regCode
+          in: query
+          required: true
+          description: region code such as vi, us
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          description: next page of the list
+          schema:
+            type: integer
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo marker, only get deals newer than this seqNo
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: list of deal ids.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemIdPage'
+
+  /deal/refs/{id}:
+    get:
+      summary: Endpoint /deal/refs/{id} - get all refs id from a deal.
+      operationId: getDealRefs
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: deal hashId or user generated.
+          schema:
+            type: string
+        - name: owner
+          in: path
+          required: true
+          description: owner uuid if deal id is user generated.
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          description: default page is 0
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: return deal refs page
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemIdPage'
+
+  /deal/list/owner/{id}:
+    get:
+      summary: Endpoint /deal/list/owner/{id} - Get list of deal ids owned by the user.
+      operationId: getDealListOwner
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user uuid or hashId of a shop.
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          description: next page of the list
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: list of deal ids.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+
+  /deal/list/product/{id}:
+    get:
+      summary: Endpoint /deal/list/product/{id} - Get list of deal ids owned by the product.
+      operationId: getDealListProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: product hashId
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          description: next page of the list
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: list of deal ids.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemIdPage'
+
+  /deal/owner/{uuid}:
+    get:
+      summary: Endpoint /deal/owner/{uuid} - Get list of deal ids owned by the user.
+      operationId: getDealOwnerPage
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          description: owner uuid
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          description: next page
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: list of active deals owned by the user.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/KeoList'
+
+  /deal/product/{prodId}:
+    get:
+      summary: Endpoint /deal/product/{prodId}/{ownerUuid} - Get list of deal ids for a product.
+      operationId: getDealProduct
+      parameters:
+        - name: prodId
+          in: path
+          required: true
+          description: product id in hex hash format.
+          schema:
+            type: string
+        - name: ownerUuid
+          in: query
+          required: true
+          description: the owner uuid.
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          description: next page to get
+          schema:
+            type: integer
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo marker, only get deals newer than this seqNo
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: list of active deals owned by the user.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/KeoList'
+
+  ###  Deal Transaction  ### ##########################################################
+  ##
+  /deal/tx:
+    post:
+      summary: "Endpoint post /deal/tx - Post to create or update a deal transaction"
+      operationId: postDealTx
+      requestBody:
+        description: Create or update a deal transaction.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-user.yaml#/components/schemas/DealTx'
+      responses:
+        '200':
+          description: updated info about the deal transaction.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/DealTx'
+
+  /deal/tx/owner/{dealId}:
+    get:
+      summary: Endpoint get /dea/tx/owner - Get list of deal txs associated with the dealId or owner.
+      operationId: getDealTxOwner
+      parameters:
+        - name: dealId
+          in: path
+          required: true
+          description: Deal id in hex hash format or user generated name.
+          schema:
+            type: string
+        - name: ownerUuid
+          in: query
+          required: true
+          description: if the deal Id is user generated name, must supply the owner uuid.
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          description: next page of transaction records
+          schema:
+            type: integer
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo marker, only get deal Txs newer than this seqNo
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: list of deal transactions from the deal.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/DealTxList'
+
+  /deal/tx/product/{prodHash}:
+    get:
+      summary: Endpoint get /dea/tx/product - Get list of deal txs associated with the product.
+      operationId: getDealTxProduct
+      parameters:
+        - name: prodHash
+          in: path
+          required: true
+          description: if the deal Id is user generated name, user login user for owner.
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          description: next page of transaction records
+          schema:
+            type: integer
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo marker, only get deal Txs newer than this seqNo
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: list of deal transactions from the deal.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/DealTxList'
+
+  /deal/tx/list/{id}:
+    get:
+      summary: Endpoint /deal/tx/list/{id} - Get list of deal tx ids from the query.
+      operationId: getDealTxList
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: uuid or hashId to query
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          description: next page of the list
+          schema:
+            type: integer
+        - name: kind
+          in: query
+          required: true
+          description: id kind from IdKind enums.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list of deal tx ids.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemIdPage'
+
+  /deal/tx/deal/{dealHash}:
+    get:
+      summary: Endpoint get /dea/tx/deal - Get list of deal txs associated with the deal.
+      operationId: getDealTxDeal
+      parameters:
+        - name: dealHash
+          in: path
+          required: true
+          description: if the deal Id is user generated name, user login user for owner.
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          description: next page of transaction records
+          schema:
+            type: integer
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo marker, only get deal Txs newer than this seqNo
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: list of deal transactions from the deal.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/DealTxList'
+
+  /deal/tx/id/{hashId}:
+    get:
+      summary: Endpoint get /dea/tx/id - Get the deal transaction based on id
+      operationId: getDealTx
+      parameters:
+        - name: hashId
+          in: path
+          required: true
+          description: the deal id in hash format.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: the deal transactions.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/DealTx'
+
+  ###  Server Sync  ###################################################################
+  ##
+  /sync:
+    post:
+      summary: "Endpoint post /sync - Post to sync client database with server"
+      operationId: postSync
+      requestBody:
+        description: List of ids to sync up with the server
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: DashData with sync objects
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/DashData'
+
+  /sync/account:
+    post:
+      summary: Endpoint post /sync/account - post to sync account when first login
+      operationId: postSyncAccount
+      requestBody:
+        description: account uuid and data to sync to the server.
+        content:
+          application/json:
+            schema:
+              $ref: 'models-user.yaml#/components/schemas/SyncAccount'
+      responses:
+        '200':
+          description: Account sync info
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/SyncAccount'
+
+  /sync/server/stats:
+    post:
+      summary: "Endpoint post /sync/server/stats - Post to request stats for items"
+      operationId: postSyncServerStats
+      requestBody:
+        description: List of ids to sync up stats.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: Updated stats from server.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/StatList'
+
+  /sync/client/stats:
+    post:
+      summary: "Endpoint post /sync/client/stats - Post to update stats for items"
+      operationId: postSyncClientStats
+      requestBody:
+        description: List of ItemIds to update stats.  The seqNo field is for bitmask indicating updating counters.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: Updated stats from server.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/StatList'
+
+  /startup:
+    post:
+      summary: "Endpoint post /startup - Post for client for getting started"
+      operationId: postStart
+      requestBody:
+        description: Info about the client to establish the session
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-user.yaml#/components/schemas/Startup'
+      responses:
+        '200':
+          description: Dashboard
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/DashBoard'

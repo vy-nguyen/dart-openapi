@@ -1,0 +1,331 @@
+paths:
+  /dashboard:
+    get:
+      summary: Endpoint /dashboard - Get main dash board for the user
+      operationId: getUserDashBoard
+      responses:
+        '200':
+          description: Main dashboard
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/DashBoard'
+    post:
+      summary: Endpoint /dashboard - Post user dashboard template
+      operationId: postUserDashBoard
+      requestBody:
+        description: Dashboard input form
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'screen.yaml#/components/schemas/DashBoard'
+      responses:
+        '200':
+          description: User dashboard template form
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/DashBoard'
+
+  /dashboard/gen:
+    get:
+      summary: Endpoint /dashboard/gen - Generate dashboard for the login user.  If user is admin, generate the main dashboard.
+      operationId: genDashBoard
+      responses:
+        '200':
+          description: Dashboard info
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/DashBoard'
+
+  /dashboard/op:
+    post:
+      summary: Endpoint /dashboard/op - Post to add or remove list of items to the user dashboard.
+      operationId: opUserDashItems
+      requestBody:
+        description: list of itemIds to add or remove to/from the dashboard.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: return item key for the dashboard.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+
+  /dashboard/seller:
+    post:
+      summary: Endpoint /dashboard/seller - Post seller dashboard template
+      operationId: postSellerDashBoard
+      requestBody:
+        description: Seller dashboard input form
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'screen.yaml#/components/schemas/SellerDash'
+      responses:
+        '200':
+          description: Seller dashboard template form
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/SellerDash'
+
+  /dashboard/seller/op:
+    post:
+      summary: Endpoint /dashboard/seller/op - Post to add or remove list of items to the seller dashboard.
+      operationId: opSellerDashItems
+      requestBody:
+        description: list of itemIds to add or remove to/from the seller dashboard.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: return item key for the seller dashboard.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+
+  /dashboard/buyer:
+    post:
+      summary: Endpoint /dashboard/buyer - Post buyer dashboard template
+      operationId: postBuyerDashBoard
+      requestBody:
+        description: Buyer dashboard input form
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'screen.yaml#/components/schemas/BuyerDash'
+      responses:
+        '200':
+          description: Buyer dashboard template form
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/BuyerDash'
+
+  /dashboard/buyer/op:
+    post:
+      summary: Endpoint /dashboard/buyer/op - Post to add or remove list of items to the buyer dashboard.
+      operationId: opBuyerDashItems
+      requestBody:
+        description: list of itemIds to add or remove to/from the seller dashboard.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: return item key for the buyer dashboard.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+
+  /dashboard/deal:
+    post:
+      summary: Endpoint /dashboard/deal - Post deal dashboard template
+      operationId: postDealDashBoard
+      requestBody:
+        description: Deal dashboard input form
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'screen.yaml#/components/schemas/KeoDash'
+      responses:
+        '200':
+          description: Deal dashboard template form
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/KeoDash'
+
+  /dashboard/deal/op:
+    post:
+      summary: Endpoint /dashboard/deal/op - Post to add or remove list of items to the deal dashboard.
+      operationId: opDealDashItems
+      requestBody:
+        description: list of itemIds to add or remove to/from the deal dashboard.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: return item key for the deal dashboard.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+
+  /category/info/{id}:
+    post:
+      summary: Endpoint /category/info/{id} - Post or update a category
+      operationId: postCategory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: category name such as luagao.  Use '-' for spaces between words.
+          schema:
+            type: string
+      requestBody:
+        description: form to create or update a category.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-user.yaml#/components/schemas/Category'
+      responses:
+        '200':
+          description: return detail about a category.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Category'
+    get:
+      summary: Get a category
+      operationId: getCategory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: category name such as luagao.  Use '-' for spaces between words.
+          schema:
+            type: string
+        - name: regCode
+          in: query
+          required: true
+          description: country code such as vi, us
+          schema:
+            type: string
+        - name: region
+          in: query
+          required: true
+          description: region name such as dongnai, dong-nai
+          schema:
+            type: string
+        - name: kind
+          in: query
+          required: true
+          description: item kind such as user, prod
+          schema:
+            type: string
+      responses:
+        '200':
+          description: return detail about a category.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Category'
+
+  /category/list:
+    get:
+      summary: Endpoint /category/list - Get list of categories available in a region.
+      operationId: listRegionalCategory
+      parameters:
+        - name: region
+          in: query
+          required: true
+          description: region name such as dongnai
+          schema:
+            type: string
+        - name: regCode
+          in: query
+          required: true
+          description: region code such as vi
+          schema:
+            type: string
+      responses:
+        '200':
+          description: return the list of categories id to pass to the /category/info call.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/Keywords'
+
+  /category/op/{id}:
+    post:
+      summary: Endpoint /category/op/{id} - Post to add or remove list of items to the category.
+      operationId: opCategoryItems
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: category name such as luagao.  Use '-' for spaces between words.
+          schema:
+            type: string
+      requestBody:
+        description: list of itemIds to add or remove to/from the category.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: return updated detail about the category.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Category'
+
+  /legal/contract/{template}:
+    post:
+      summary: Endpoint /legal/contract/{template} - Post legal contract
+      operationId: postLegalContract
+      parameters:
+        - name: template
+          in: path
+          required: true
+          description: contract template name
+          schema:
+            type: string
+      requestBody:
+        description: list of itemIds to add or remove to/from the category.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-legal.yaml#/components/schemas/Contract'
+      responses:
+        '200':
+          description: return updated contract terms.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-legal.yaml#/components/schemas/Contract'
+
+  /ads/article:
+    post:
+      summary: Endpoint /ads/article - Post an ads article
+      operationId: postAdsArticle
+      requestBody:
+        description: Ads article
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-user.yaml#/components/schemas/Article'
+      responses:
+        '200':
+          description: return updated contract terms.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Article'

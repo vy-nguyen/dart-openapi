@@ -1,0 +1,178 @@
+openapi: "3.0.2"
+info:
+  title: Common Legal Models
+  version: "1.0.0"
+paths: {}
+components:
+  schemas:
+    Term:
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        defs:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        cond:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        refs:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+
+    TermList:
+      type: object
+      properties:
+        name:
+          type: string
+        terms:
+          type: array
+          items:
+            $ref: '#/components/schemas/Term'
+
+    Contract:
+      type: object
+      properties:
+        key:
+          type: string
+        dict:
+          type: object
+          additionalProperties:
+            type: string
+        buyer:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        seller:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        content:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        terms:
+          type: array
+          items:
+            $ref: '#/components/schemas/Term'
+        refs:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+
+    LegalTerm:
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            type: string
+        defs:
+          type: array
+          items:
+            type: string
+        cond:
+          type: array
+          items:
+            type: string
+        eval:
+          type: array
+          items:
+            type: string
+        kwlink:
+          type: array
+          items:
+            type: string
+
+    LegalEval:
+      type: object
+      properties:
+        field:
+          type: string
+        type:
+          type: string
+        hasSubs:
+          type: boolean
+        eval:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+
+    Legal:
+      type: object
+      properties:
+        evals:
+          type: object
+          properties:
+            peopleName:
+              type: array
+              items:
+                type: string
+            businessName:
+              type: array
+              items:
+                type: string
+            realName:
+              type: array
+              items:
+                type: string
+            goodsName:
+              type: array
+              items:
+                type: string
+            quality:
+              type: array
+              items:
+                type: string
+            quantity:
+              type: array
+              items:
+                type: string
+            deliveryTime:
+              type: array
+              items:
+                type: string
+            deliveryLocation:
+              type: array
+              items:
+                type: string
+            price:
+              type: array
+              items:
+                type: string
+            contact:
+              type: array
+              items:
+                type: string
+            contract:
+              type: array
+              items:
+                type: string
+            catalog:
+              type: array
+              items:
+                type: string
+            bank:
+              type: array
+              items:
+                type: string
+        keo:
+          type: array
+          items:
+            $ref: '#/components/schemas/LegalTerm'
+
+        exceptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/LegalEval'

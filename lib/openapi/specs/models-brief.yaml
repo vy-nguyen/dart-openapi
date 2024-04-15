@@ -1,0 +1,347 @@
+openapi: "3.0.0"
+info:
+  title: Brief model data
+  version: "1.0.0"
+paths: {}
+components:
+  schemas:
+    IdKind:
+      type: string
+      enum:
+        - ucat
+        - sell
+        - buyer
+        - cust
+        - cuser
+        - prof
+        - usec
+        - uwar
+        - ucon
+        - uprd
+        - utrx
+        - uwrk
+        - dltx
+        - deal
+        - refs
+        - trans
+        - bidr
+        - ulgl
+        - lglt
+        - usrdash
+        - selldash
+        - buydash
+        - dealdash
+        - region
+        - landing
+        - feed
+        - ads
+        - mesg
+        - reply
+        - blog
+        - art
+        - book
+        - chapter
+        - str
+        - fav
+        - custtx
+        - ''
+
+    Region:
+      type: object
+      required:
+        - fmtCode
+      properties:
+        itemKey:
+          $ref: '#/components/schemas/ItemKey'
+        regCode:
+          type: string
+        wand:
+          type: string
+        town:
+          type: string
+        unit:
+          type: string
+        province:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+        zip:
+          type: string
+        fmtCode:
+          type: string
+        log:
+          type: number
+          format: double
+        lat:
+          type: number
+          format: double
+        keywords:
+          type: array
+          items:
+            type: string
+
+    RegionList:
+      type: object
+      required:
+        - regCode
+        - pageInfo
+        - records
+      properties:
+        regCode:
+          type: string
+        pageInfo:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Region'
+
+    Address:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: double
+          description: The latitude of the location.
+        log:
+          type: number
+          format: double
+          description: The longitude of the location.
+        number:
+          type: string
+        village:
+          type: string
+        wand:
+          type: string
+        town:
+          type: string
+        city:
+          type: string
+        province:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        country:
+          type: string
+
+    Keywords:
+      type: object
+      required:
+        - name
+        - values
+      properties:
+        name:
+          type: string
+        values:
+          type: array
+          items:
+            type: string
+
+    KeywordList:
+      type: object
+      required:
+        - pageInfo
+        - records
+      properties:
+        pageInfo:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Keywords'
+
+    ItemIdPage:
+      type: object
+      required:
+        - pageInfo
+        - ids
+      properties:
+        pageInfo:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemId'
+
+    ItemId:
+      type: object
+      required:
+        - uuid
+        - kind
+        - seqNo
+      properties:
+        uuid:
+          type: string
+        kind:
+          $ref: '#/components/schemas/IdKind'
+        seqNo:
+          type: integer
+          format: int64
+          default: 0
+
+    ItemIdList:
+      type: object
+      properties:
+        op:
+          type: string
+        regCode:
+          type: string
+        region:
+          type: string
+        parentUuid:
+          type: string
+        opUuid:
+          type: string
+        opKind:
+          type: string
+        opSeq:
+          type: integer
+          format: int64
+          default: 0
+        opPage:
+          type: integer
+          format: int32
+          default: 0
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemId'
+        filter:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemId'
+      example:
+        op: "add"
+        regCode: "vi"
+        region: "bh"
+        opUuid: "xyz key"
+
+    # Note that fields having default values must be in the required fields or the
+    # tool will throw NPE about unknown references.
+    #
+    ItemKey:
+      type: object
+      required:
+        - tagUuid
+        - ownerUuid
+        - kind
+        - seqNo
+      properties:
+        tagUuid:
+          type: string
+          default: ""
+        elemUuid:
+          type: string
+          default: ""
+        ownerUuid:
+          type: string
+          default: ""
+        kind:
+          $ref: '#/components/schemas/IdKind'
+        seqNo:
+          type: integer
+          format: int64
+          default: 0
+
+    ListCommon:
+      type: object
+      required:
+        - pageInfo
+      properties:
+        pageInfo:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        extras:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemId'
+
+    Header:
+      type: object
+      required:
+        - avatar
+        - itemKey
+      properties:
+        itemKey:
+          $ref: '#/components/schemas/ItemKey'
+        avatar:
+          $ref: 'models-screen.yaml#/components/schemas/HeaderLink'
+        cover:
+          $ref: 'models-screen.yaml#/components/schemas/HeaderLink'
+        header:
+          $ref: 'models-screen.yaml#/components/schemas/LineItem'
+        info:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        desc:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        offer:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        contact:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        location:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        rank:
+          type: integer
+          format: int64
+          default: 0
+        createdTime:
+          type: integer
+          format: int64
+        lastUpdate:
+          type: integer
+          format: int64
+        stats:
+          $ref: 'models-user.yaml#/components/schemas/Stats'
+        refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemId'
+
+    HeaderList:
+      type: object
+      required:
+        - page
+        - list
+      properties:
+        page:
+          $ref: '#/components/schemas/ListCommon'
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Header'
+
+    GpsPos:
+      type: object
+      required:
+        - itemKey
+        - lng
+        - lat
+      properties:
+        itemKey:
+          $ref: '#/components/schemas/ItemKey'
+        lng:
+          type: number
+          format: double
+        lat:
+          type: number
+          format: double
+
+    KeyVal:
+      type: object
+      required:
+        - key
+        - value
+      properties:
+        key:
+          type: string
+        value:
+          type: string

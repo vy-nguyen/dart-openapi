@@ -1,0 +1,196 @@
+paths:
+  /market/deals:
+    post:
+      summary: post delas to public market.
+      operationId: postProducts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: list of detail from products in the list
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/KeoList'
+
+  /market/sellers:
+    post:
+      summary: Post list of sellers to be listed in a regional market listing.
+      operationId: postSellers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: list of detail from sellers added in the list
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/SellerList'
+
+  /market/buyers:
+    post:
+      summary: Post list of buyers to be listed in a regional market listing.
+      operationId: postBuyers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: list of detail from buyers in the list
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/BuyerList'
+
+  /region:
+    post:
+      summary: Post region list to the database.
+      operationId: postRegion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/RegionList'
+      responses:
+        '200':
+          description: post result, list of region keywords.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/Keywords'
+
+  /category/{id}:
+    post:
+      summary: Endpoint /admin/category/{id} - Post or update a category
+      operationId: postAdminCategory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: category name such as luagao.  Use '-' for spaces between words.
+          schema:
+            type: string
+      requestBody:
+        description: form to create or update a category.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-user.yaml#/components/schemas/Category'
+      responses:
+        '200':
+          description: return detail about the category.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Category'
+
+  /catalog/{id}:
+    post:
+      summary: Endpoint /admin/catalog/{id} - Post or update a catalog category
+      operationId: postAdminCatalog
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: catalog name such as luagao, no spaces.
+          schema:
+            type: string
+      requestBody:
+        description: form to create or update a catalog.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-user.yaml#/components/schemas/Category'
+      responses:
+        '200':
+          description: return detail about the catalog.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Category'
+
+  /legal/terms:
+    post:
+      summary: Post legal terms to construct contracts.
+      operationId: postAdminLegalTerms
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-legal.yaml#/components/schemas/Legal'
+      responses:
+        '200':
+          description: post result, list of legal keywords.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/Keywords'
+
+  /legal/contract:
+    post:
+      summary: Post legal contract templates.
+      operationId: postAdminLegalContract
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-legal.yaml#/components/schemas/Contract'
+      responses:
+        '200':
+          description: post result, list of contract keywords.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/Keywords'
+
+  /landing:
+    post:
+      summary: Post the main landing page.
+      operationId: postMainLanding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'screen.yaml#/components/schemas/Landing'
+      responses:
+        '200':
+          description: post result, get back the landing info.
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/Landing'
+
+  /article:
+    post:
+      summary: Admin API to post article on behalf of users.
+      operationId: postUserArticle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-user.yaml#/components/schemas/Article'
+      responses:
+        '200':
+          description: post result, get back the article.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Article'

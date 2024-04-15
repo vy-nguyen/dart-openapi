@@ -1,0 +1,130 @@
+openapi: "3.0.2"
+info:
+  title: Common screen models
+  version: "1.0.0"
+paths: {}
+components:
+  schemas:
+    Text:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+        meta:
+          type: string
+          default: ''
+
+    LineItem:
+      type: object
+      required:
+        - text
+      properties:
+        icon:
+          type: string
+        format:
+          type: string
+        text:
+          type: string
+
+    ItemDetail:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          $ref: '#/components/schemas/Text'
+        background:
+          $ref: '#/components/schemas/LineItem'
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Text'
+
+    ItemLink:
+      allOf:
+        - $ref: '#/components/schemas/ItemDetail'
+        - type: object
+          required:
+            - actions
+          properties:
+            actions:
+              type: array
+              items:
+                $ref: '#/components/schemas/TextLink'
+
+    TextLink:
+      type: object
+      required:
+        - text
+        - action
+      properties:
+        icon:
+          type: string
+        text:
+          type: string
+        uuid:
+          type: string
+        action:
+          type: string
+
+    HeaderLink:
+      allOf:
+        - $ref: '#/components/schemas/TextLink'
+        - type: object
+          required:
+            - header
+          properties:
+            header:
+              type: array
+              items:
+                $ref: '#/components/schemas/Text'
+
+    PageInfo:
+      type: object
+      required:
+        - total
+        - current
+      properties:
+        total:
+          type: integer
+          default: 1
+        current:
+          type: integer
+          default: 0
+        seqNo:
+          type: integer
+          format: int64
+          default: 0
+        itemCount:
+          type: integer
+          default: 0
+
+    Banner:
+      type: object
+      required:
+        - content
+        - background
+      properties:
+        background:
+          $ref: '#/components/schemas/LineItem'
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+        button:
+          type: array
+          items:
+            $ref: '#/components/schemas/TextLink'
+
+    PublicKeyQR:
+      type: object
+      required:
+        - key
+        - QRCode
+      properties:
+        key:
+          type: string
+        QRCode:
+          $ref: '#/components/schemas/Text'

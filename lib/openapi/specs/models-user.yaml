@@ -1,0 +1,862 @@
+openapi: "3.0.2"
+info:
+  title: SealTrust User Models
+  version: "1.0.0"
+paths: {}
+components:
+  schemas:
+    ContactType:
+      type: string
+      enum:
+        - phone
+        - zalo
+        - whatsapp
+        - viber
+        - facebook
+        - email
+        - telegram
+        - signal
+
+    DealState:
+      type: string
+      enum:
+        - RaoKeo
+        - BatKeo
+        - KetKeo
+        - ThuanKeo
+        - VoKeo
+        - CocKeo
+        - ShipKeo
+        - NhanGiao
+        - NhanTien
+        - XongKeo
+
+    CustProfile:
+      type: object
+      required:
+        - profile
+        - itemKey
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        rank:
+          type: integer
+          format: int64
+          default: 10000
+        regId:
+          type: string
+        profile:
+          $ref: 'common-main-api.yaml#/components/schemas/Profile'
+        address:
+          $ref: 'models-brief.yaml#/components/schemas/Address'
+        contact:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        banners:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Banner'
+        descriptions:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        pictures:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/LineItem'
+        keywords:
+          $ref: 'models-brief.yaml#/components/schemas/Keywords'
+        refs:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+
+    SellerProfile:
+      type: object
+      required:
+        - main
+        - itemKey
+        - userGenId
+        - name
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        userGenId:
+          type: string
+        name:
+          type: string
+        main:
+          $ref: '#/components/schemas/CustProfile'
+        timeStamp:
+          type: integer
+          format: int64
+        prodCap:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/Keywords'
+        prodDesc:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        prodMethods:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/Keywords'
+        prodTime:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/Keywords'
+
+    BuyerProfile:
+      type: object
+      required:
+        - main
+        - itemKey
+        - userGenId
+        - name
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        userGenId:
+          type: string
+        name:
+          type: string
+        main:
+          $ref: '#/components/schemas/CustProfile'
+        timeStamp:
+          type: integer
+          format: int64
+        prodCap:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/Keywords'
+        prodDesc:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        transMethods:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/Keywords'
+
+    Product:
+      type: object
+      required:
+        - userId
+        - title
+        - itemKey
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        userId:
+          type: string
+        region:
+          type: string
+        rank:
+          type: integer
+          format: int64
+        timeStamp:
+          type: integer
+          format: int64
+        createdTime:
+          type: integer
+          format: int64
+        title:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        price:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        quality:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        quantity:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        category:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        shopId:
+          $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        refs:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        detail:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        features:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/ItemDetail'
+        links:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/TextLink'
+
+    CUser:
+      type: object
+      required:
+        - itemKey
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        publicKeys:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/PublicKeyQR'
+        score:
+          type: integer
+          format: int64
+        createdTime:
+          type: integer
+          format: int64
+        region:
+          type: string
+        about:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        links:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/TextLink'
+        refs:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+
+    Seller:
+      type: object
+      required:
+        - user
+      properties:
+        user:
+          $ref: '#/components/schemas/CUser'
+
+    Buyer:
+      type: object
+      required:
+        - user
+      properties:
+        user:
+          $ref: '#/components/schemas/CUser'
+
+    KeoFull:
+      type: object
+      required:
+        - userId
+        - status
+        - itemKey
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        userId:
+          type: string
+        status:
+          type: string
+        region:
+          type: string
+        regCode:
+          type: string
+        rank:
+          type: integer
+          format: int64
+        createdTime:
+          type: integer
+          format: int64
+        timeStamp:
+          type: integer
+          format: int64
+        expiration:
+          type: integer
+          format: int64
+        price:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        quality:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        quantity:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        schedule:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        delivery:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        transport:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        details:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        category:
+          $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        product:
+          $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        contract:
+          $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        owner:
+          $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        refs:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+
+    DealTx:
+      type: object
+      required:
+        - dealIds
+        - itemKey
+        - userGenId
+        - mainDeal
+        - sellerStatus
+        - buyerStatus
+        - unit
+        - unitCount
+        - price
+        - currency
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        userGenId:
+          type: string
+        regId:
+          type: string
+          default: 'vi'
+        mainDeal:
+          $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        createdTime:
+          type: integer
+          format: int64
+          default: 0
+        unit:
+          type: string
+        unitCount:
+          type: integer
+          default: 0
+        price:
+          type: integer
+          default: 0
+        currency:
+          type: string
+          default: 'vnd'
+        timeStamp:
+          type: integer
+          format: int64
+          default: 0
+        lastUpdate:
+          type: integer
+          format: int64
+          default: 0
+        sellerStatus:
+          type: array
+          items:
+            type: string
+        buyerStatus:
+          type: array
+          items:
+            type: string
+        refs:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+
+    Category:
+      type: object
+      required:
+        - header
+        - title
+        - itemKey
+        - type
+        - rank
+      properties:
+        title:
+          type: string
+        parentName:
+          type: string
+        type:
+          type: string
+          enum:
+            - product
+            - service
+            - news
+            - book
+            - chapter
+        rank:
+          type: integer
+          default: 0
+        regId:
+          type: string
+        alias:
+          type: array
+          items:
+            type: string
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        parent:
+          $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        header:
+          $ref: 'models-screen.yaml#/components/schemas/LineItem'
+        desc:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        itemChoice:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/Keywords'
+        unitChoice:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/Keywords'
+        refs:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+
+    CategoryList:
+      type: object
+      required:
+        - page
+        - categories
+      properties:
+        page:
+          $ref: 'models-brief.yaml#/components/schemas/ListCommon'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        articles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Article'
+
+    KeoList:
+      type: object
+      required:
+        - page
+        - deals
+      properties:
+        page:
+          $ref: 'models-brief.yaml#/components/schemas/ListCommon'
+        deals:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeoFull'
+
+    DealTxList:
+      type: object
+      required:
+        - page
+        - dealTxs
+      properties:
+        page:
+          $ref: 'models-brief.yaml#/components/schemas/ListCommon'
+        dealTxs:
+          type: array
+          items:
+            $ref: '#/components/schemas/DealTx'
+
+    SellerList:
+      type: object
+      required:
+        - page
+        - sellers
+      properties:
+        page:
+          $ref: 'models-brief.yaml#/components/schemas/ListCommon'
+        sellers:
+          type: array
+          items:
+            $ref: '#/components/schemas/SellerProfile'
+
+    BuyerList:
+      type: object
+      required:
+        - page
+        - buyers
+      properties:
+        page:
+          $ref: 'models-brief.yaml#/components/schemas/ListCommon'
+        buyers:
+          type: array
+          items:
+            $ref: '#/components/schemas/BuyerProfile'
+
+    CustList:
+      type: object
+      required:
+        - page
+        - buyers
+      properties:
+        page:
+          $ref: 'models-brief.yaml#/components/schemas/ListCommon'
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/CUser'
+
+    ProductList:
+      type: object
+      required:
+        - page
+        - products
+      properties:
+        page:
+          $ref: 'models-brief.yaml#/components/schemas/ListCommon'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+
+    SyncOp:
+      type: string
+      enum:
+        - sync
+        - link
+        - unlink
+        - getLink
+
+    KeyLink:
+      type: object
+      required:
+        - itemKey
+        - links
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        links:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+
+    SyncAccount:
+      type: object
+      required:
+        - itemKey
+        - op
+        - searchKm
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        persist:
+          type: boolean
+        searchKm:
+          type: integer
+        op:
+          $ref: '#/components/schemas/SyncOp'
+        options:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/KeyVal'
+        myPos:
+          $ref: 'models-brief.yaml#/components/schemas/GpsPos'
+        stores:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/GpsPos'
+        refs:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+
+    ## Return data for the post form of ItemIds to lookup for different kind of objects.
+    ##
+    DashData:
+      type: object
+      required:
+        - seqNo
+      properties:
+        seqNo:
+          type: integer
+          format: int64
+          default: 0
+        profile:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustProfile'
+        profilePage:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        user:
+          type: array
+          items:
+            $ref: '#/components/schemas/CUser'
+        UserPage:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        buyer:
+          type: array
+          items:
+            $ref: '#/components/schemas/BuyerProfile'
+        buyerPage:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        seller:
+          type: array
+          items:
+            $ref: '#/components/schemas/SellerProfile'
+        sellerPage:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        product:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        productPage:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        contract:
+          type: array
+          items:
+            $ref: 'models-legal.yaml#/components/schemas/Contract'
+        contractPage:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        legalTerm:
+          type: array
+          items:
+            $ref: 'models-legal.yaml#/components/schemas/Term'
+        legalTermPage:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        deal:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeoFull'
+        dealPage:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        dealTx:
+          type: array
+          items:
+            $ref: '#/components/schemas/DealTx'
+        dealTxPage:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        article:
+          type: array
+          items:
+            $ref: '#/components/schemas/Article'
+        articlePage:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        category:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        categoryPage:
+          $ref: 'models-screen.yaml#/components/schemas/PageInfo'
+        userDash:
+          type: array
+          items:
+            $ref: 'screen.yaml#/components/schemas/DashBoard'
+        sellerDash:
+          type: array
+          items:
+            $ref: 'screen.yaml#/components/schemas/SellerDash'
+        buyerDash:
+          type: array
+          items:
+            $ref: 'screen.yaml#/components/schemas/BuyerDash'
+        dealDash:
+          type: array
+          items:
+            $ref: 'screen.yaml#/components/schemas/KeoDash'
+        deletedIds:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        gps:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/GpsPos'
+
+    Article:
+      type: object
+      required:
+        - itemKey
+        - parentId
+        - ownerId
+        - summary
+        - content
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        regId:
+          type: string
+        author:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        timeStamp:
+          type: integer
+          format: int64
+        ownerId:
+          $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        rootId:
+          $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        parentId:
+          $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        cover:
+          $ref: 'models-screen.yaml#/components/schemas/LineItem'
+        summary:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        content:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+        refs:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+
+    ArticleList:
+      type: object
+      required:
+        - page
+        - articles
+        - categories
+      properties:
+        page:
+          $ref: 'models-brief.yaml#/components/schemas/ListCommon'
+        articles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Article'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+
+    Message:
+      type: object
+      required:
+        - itemId
+        - parentId
+        - content
+        - ownerId
+        - parentId
+      properties:
+        itemId:
+          $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        regId:
+          type: string
+        ownerId:
+          $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        pubKey:
+          $ref: 'models-screen.yaml#/components/schemas/Text'
+        parentId:
+          $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        content:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+
+    MessageList:
+      type: object
+      required:
+        - page
+        - list
+      properties:
+        page:
+          $ref: 'models-brief.yaml#/components/schemas/ListCommon'
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+
+    Counter:
+      type: object
+      required:
+        - name
+        - value
+      properties:
+        name:
+          type: string
+        value:
+          type: integer
+          default: 0
+
+    Stats:
+      type: object
+      required:
+        - itemKey
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        likes:
+          type: integer
+          default: 0
+        bookmark:
+          type: integer
+          default: 0
+        shares:
+          type: integer
+          default: 0
+        extras:
+          type: array
+          items:
+            $ref: '#/components/schemas/Counter'
+
+    StatList:
+      type: object
+      required:
+        - page
+        - list
+      properties:
+        page:
+          $ref: 'models-brief.yaml#/components/schemas/ListCommon'
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stats'
+
+    Startup:
+      type: object
+      required:
+        - lastSeq
+        - page
+      properties:
+        lastSeq:
+          type: integer
+          format: int64
+          default: 0
+        page:
+          type: integer
+          default: 0
+        dataInfo:
+          $ref: 'screen.yaml#/components/schemas/DataInfo'
+        lgn:
+          type: number
+          format: double
+          default: 0.0
+        lat:
+          type: number
+          format: double
+          default: 0.0
+        regCode:
+          type: string
+          default: 'vi'
+
+    Notify:
+      type: object
+      required:
+        - itemKey
+        - notifyKey
+        - timeStamp
+        - summary
+      properties:
+        itemKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        notifyKey:
+          $ref: 'models-brief.yaml#/components/schemas/ItemKey'
+        refs:
+          type: array
+          items:
+            $ref: 'models-brief.yaml#/components/schemas/ItemId'
+        timeStamp:
+          type: integer
+          format: int64
+        summary:
+          type: array
+          items:
+            $ref: 'models-screen.yaml#/components/schemas/Text'
+
+    NotifyList:
+      type: object
+      required:
+        - page
+        - list
+      properties:
+        page:
+          $ref: 'models-brief.yaml#/components/schemas/ListCommon'
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notify'

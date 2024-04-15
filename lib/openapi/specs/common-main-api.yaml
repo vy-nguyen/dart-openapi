@@ -1,0 +1,688 @@
+openapi: 3.0.2
+info:
+  title: Common Auth API
+  description: |-
+    Common auth api 
+    
+    Some useful links:
+    - [Open API 3.0](http://swagger.io)
+  termsOfService: BSD
+  contact:
+    email: vynguyen@tvntd.com
+  license:
+    name: Apache 2.0
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8070
+   
+tags:
+  - name: auth
+    description: authentication, registration APIs
+
+paths:
+  /login:
+    post:
+      tags:
+        - auth
+      summary: Login to user account
+      description: Login by email, password from browser
+      operationId: login
+      requestBody:
+        description: Enter user credentials from browser
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountCredentials'
+        required: true
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '405':
+          description: Invalid input
+
+  /login/mobile:
+    post:
+      tags:
+        - auth
+      summary: Login to user account from mobil app
+      description: Login by mobil app signed by private key
+      operationId: loginMobile
+      requestBody:
+        description: Login from mobile app
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MobileCredentials'
+        required: true
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '405':
+          description: Invalid input
+
+  /login/email:
+    get:
+      tags:
+        - auth
+      summary: Login to user account from email link
+      description: Login from http link sent to user email account
+      operationId: loginEmail
+      parameters:
+        - name: uuid
+          in: query
+          description: user uuid
+          required: true
+          schema:
+            type: string
+        - name: tempPassword
+          in: query
+          description: temporally password
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '405':
+          description: Invalid input
+
+  /login/qrcode:
+    post:
+      tags:
+        - auth
+      summary: Login to user account by qrcode scan
+      description: Login by qrcode scanned by mobile app
+      operationId: loginQRCode
+      requestBody:
+        description: Login from mobile app scanning QR code
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MobileCredentials'
+        required: true
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '405':
+          description: Invalid input
+
+  /login/reset-passwd:
+    post:
+      summary: Reset password via email
+      description: Reset user password by sending email
+      operationId: resetPassword
+      requestBody:
+        description: Reset user password
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountCredentials'
+        required: true
+      responses:
+        '200':
+          description: Sent email to reset password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '405':
+          description: Invalid input.
+
+  /register:
+    post:
+      tags:
+        - auth
+      summary: Register user account
+      description: Register user account from browser/mobile app
+      operationId: registerUser
+      requestBody:
+        description: Register user info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUser'
+        required: true
+      responses:
+        '200':
+          description: Successful register
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '405':
+          description: Invalid input
+
+  /register/admin:
+    post:
+      tags:
+        - auth
+      summary: Register admin user account
+      description: Register admin user account from browser/mobile app
+      operationId: registerAdminUser
+      requestBody:
+        description: Register admin user info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUser'
+        required: true
+      responses:
+        '200':
+          description: Successful register
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '405':
+          description: Invalid input
+
+  /register/verify:
+    post:
+      tags:
+        - auth
+      summary: Verify user registration with verification code
+      description: Verify user registration
+      operationId: verifyRegUser
+      requestBody:
+        description: Verification code
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MobileCredentials'
+        required: true
+      responses:
+        '200':
+          description: Successful register verification
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '405':
+          description: Invalid input
+
+  /register/user:
+    get:
+      parameters:
+        - in: query
+          name: uuid
+          schema:
+            type: string
+          required: true
+      operationId: getPublicUser
+      responses:
+        '200':
+          description: Get user public info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '405':
+          description: Invalid input
+
+  /user/add-publickeys:
+    post:
+      summary: Add public keys
+      description: Add user public keys
+      operationId: addPublicKeys
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublicKeyRec'
+        required: true
+      responses:
+        '200':
+          description: Successful register public keys.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicKeyRec'
+        '405':
+          description: Invalid input
+
+  /user/delete:
+    post:
+      security:
+        - bearerAuth: []
+      summary: Delete a user.
+      description: Delete a user record.
+      operationId: deleteUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountCredentials'
+        required: true
+      responses:
+        '200':
+          description: Successful remove the user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Unauthorized request
+
+  /user/change-passwd:
+    post:
+      tags:
+        - auth
+      summary: Change user password
+      description: Change user password
+      operationId: changePassword
+      requestBody:
+        description: Change password
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswd'
+        required: true
+      responses:
+        '200':
+          description: Successful change password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '405':
+          description: Invalid input
+
+  /user/upload-img:
+    post:
+      summary: Upload image owned by the user.
+      description: Allow user to upload an image identified by a tagId.
+      operationId: userUploadImgPost
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                tagId:
+                  type: string
+      responses:
+        '200':
+          description: Successful upload.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpload'
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+
+  /user/profile:
+    post:
+      summary: Update user profile.
+      description: Add profile data for the user.
+      operationId: userPostProfile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+      responses:
+        '200':
+          description: Successful update user profile.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+
+  /user/profile/{id}:
+    get:
+      summary: Get user profile.
+      description: Get profile data of the user.
+      operationId: userGetProfile
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user uuid
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful update user profile.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '403':
+          description: Not Found
+
+  /user/info/{id}:
+    get:
+      summary: Get info for registered user.
+      description: Get self or info from other users.
+      operationId: userGetInfo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user uuid, none for self.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get user info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+
+  /user/op:
+    post:
+      summary: Apply an operation to my user account/profile.
+      operationId: userPostOp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserOps'
+      responses:
+        '200':
+          description: Result operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    AccountCredentials:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: abc@gmail.com
+        password:
+          type: string
+          format: password
+          example: your password
+
+    ChangePasswd:
+      type: object
+      required:
+        - email
+        - password
+        - newPassword
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        newPassword:
+          type: string
+          format: password
+
+    MobileCredentials:
+      type: object
+      required:
+        - uuid
+        - randText
+        - signedHash
+        - sValue
+        - rValue
+      properties:
+        uuid:
+          type: string
+        randText:
+          type: string
+        email:
+          type: string
+          format: email
+        signedHash:
+          type: string
+        sValue:
+          type: string
+        rValue:
+          type: string
+        verifyCode:
+          type: string
+
+    LoginUser:
+      type: object
+      required:
+        - uuid
+        - firstName
+        - lastName
+        - email
+      properties:
+        uuid:
+          type: string
+        account:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        userName:
+          type: string
+        deviceId:
+          type: string
+
+    RegisterUser:
+      allOf:
+        - $ref: "#/components/schemas/LoginUser"
+        - type: object
+          properties:
+            password:
+              type: string
+              format: password
+            publicKey:
+              type: string
+            sValue:
+              type: string
+            rValue:
+              type: string
+            signedHash:
+              type: string
+
+    Role:
+      type: string
+      enum:
+        - admin
+        - user
+        - guest
+        - owner
+        - follower
+        - seller
+        - buyer
+        - customer
+        - author
+        - readOnly
+        - canCreate
+        - canModify
+        - canDelete
+        - canSign
+
+    PublicKey:
+      type: object
+      required:
+        - name
+        - key
+      properties:
+        name:
+          type: string
+        key:
+          type: string
+
+    PublicKeyRec:
+      type: object
+      required:
+        - uuid
+        - keys
+      properties:
+        uuid:
+          type: string
+        keys:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicKey"
+
+    User:
+      type: object
+      required:
+        - uuid
+        - firstName
+        - lastName
+        - publicKey
+      properties:
+        uuid:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        publicKey:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicKey"
+        account:
+          type: string
+        userName:
+          type: string
+        role:
+          $ref: "#/components/schemas/Role"
+
+    AuthResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
+        token:
+          type: string
+        userInfo:
+          $ref: "#/components/schemas/LoginUser"
+
+    UserUpload:
+      type: object
+      properties:
+        result:
+          type: string
+        hashId:
+          type: string
+        urlRef:
+          type: string
+
+    UserInfo:
+      type: object
+      required:
+        - account
+      properties:
+        account:
+          $ref: '#/components/schemas/User'
+        urlRef:
+          type: string
+        gender:
+          type: string
+        lastLogin:
+          type: integer
+          format: int64
+        avatar:
+          type: string
+        cover:
+          type: string
+        followers:
+          type: array
+          items:
+            type: string
+        follows:
+          type: array
+          items:
+            type: string
+        connections:
+          type: array
+          items:
+            type: string
+
+    UserOps:
+      type: object
+      properties:
+        op:
+          type: string
+        peerUuid:
+          type: string
+        uuids:
+          type: array
+          items:
+            type: string
+        objectIds:
+          type: array
+          items:
+            type: string
+
+    Profile:
+      type: object
+      required:
+        - userInfo
+      properties:
+        userInfo:
+          $ref: '#/components/schemas/UserInfo'
+        createdTime:
+          type: integer
+          format: int64
+        phone:
+          type: string
+        location:
+          type: string
+        birthday:
+          type: string
+        region:
+          type: string
+        country:
+          type: string
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double

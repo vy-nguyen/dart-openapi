@@ -1,0 +1,794 @@
+paths:
+  /landing:
+    get:
+      summary: Get landing screen info
+      operationId: landing
+      responses:
+        '200':
+          description: Landing screen
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/Landing'
+
+  /dashboard/{page}:
+    get:
+      summary: Get the main dash board
+      parameters:
+        - name: page
+          in: path
+          required: true
+          description: the page to get daily dashboards
+          schema:
+            type: integer
+      operationId: getDashBoard
+      responses:
+        '200':
+          description: Main dashboard
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/DashBoard'
+
+  /dashboard/deal/{id}:
+    get:
+      summary: Get the deal dashboard from id
+      operationId: getDealDash
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: deal id in hex-format
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deal dash board
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/KeoDash'
+
+  /dashboard/seller/{id}:
+    get:
+      summary: Get the seller dashboard from id
+      operationId: getSellerDash
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: seller id in uuid format
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Seller dash board
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/SellerDash'
+
+  /dashboard/buyer/{id}:
+    get:
+      summary: Get the buyer dashboard from id
+      operationId: getBuyerDash
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: buyer id in uuid format
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Buyer dash board
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/BuyerDash'
+
+  /deal/info/{id}:
+    get:
+      summary: Get the deal detail from id
+      operationId: getPublicDealInfo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: deal id in readable string or hex-id
+          schema:
+            type: string
+        - name: userid
+          in: query
+          required: true
+          description: user id to get deal from the user
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deal brief
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/KeoFull'
+
+  /deal/list/{regCode}:
+    get:
+      summary: Get the next page of recent deals
+      operationId: getDealList
+      parameters:
+        - name: page
+          in: query
+          required: true
+          description: next page
+          schema:
+            type: integer
+        - name: regCode
+          in: path
+          required: true
+          description: region code such as vi, us
+          schema:
+            type: string
+        - name: region
+          in: query
+          required: true
+          description: region name or alias such as dongnai, dn
+          schema:
+            type: string
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo time marker to list deals newer than this
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: List of deals
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/KeoList'
+
+  /seller/{id}:
+    get:
+      summary: Get seller full info from id
+      operationId: getSeller
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: seller id in uuid format
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Seller full info
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Seller'
+
+  /seller/list/{regCode}:
+    get:
+      summary: Get next page of the most recent sellers header
+      operationId: getSellerList
+      parameters:
+        - name: regCode
+          in: path
+          required: true
+          description: region code such as vi, us
+          schema:
+            type: string
+        - name: region
+          in: query
+          required: true
+          description: region name or alias such as dongnai, dn
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          description: next page
+          schema:
+            type: integer
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo time marker to list deals newer than this
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: List of next sellers
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/SellerList'
+
+  /buyer/{id}:
+    get:
+      summary: Get buyer info from id
+      operationId: getBuyer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: buyer id in uuid format
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Buyer full info
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Buyer'
+
+  /buyer/list/{regCode}:
+    get:
+      summary: Get the next page of most recent buyers header
+      operationId: getBuyerList
+      parameters:
+        - name: regCode
+          in: path
+          required: true
+          description: region code such as vi, us
+          schema:
+            type: string
+        - name: region
+          in: query
+          required: true
+          description: region name or alias such as dongnai, dn
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          description: next page
+          schema:
+            type: integer
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo time marker to list deals newer than this
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: List of next buyers
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/BuyerList'
+
+  /category/info/{id}:
+    get:
+      summary: Get a category
+      operationId: getCategoryInfo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: category name such as luagao.  Use '-' for spaces between words.
+          schema:
+            type: string
+        - name: regCode
+          in: query
+          required: true
+          description: country code such as vi, us
+          schema:
+            type: string
+        - name: region
+          in: query
+          required: true
+          description: region name such as dongnai, dong-nai
+          schema:
+            type: string
+      responses:
+        '200':
+          description: return detail about a category.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Category'
+
+  /category/list/{regCode}:
+    get:
+      summary: Endpoint /category/list - Get list of categories available in a region.
+      operationId: getCategoryList
+      parameters:
+        - name: region
+          in: query
+          required: true
+          description: region name such as dongnai
+          schema:
+            type: string
+        - name: regCode
+          in: path
+          required: true
+          description: region code such as vi
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          description: query page
+          schema:
+            type: integer
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo time marker to list deals newer than this
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: return the list of categories id to pass to the /category/info call.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/CategoryList'
+
+  /category/user/{id}:
+    get:
+      summary: Get info for user category (e.g. nong san)
+      operationId: getCategoryUser
+      parameters:
+        - name: userUuid
+          in: query
+          required: true
+          description: user uuid string
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          description: category id string in friendly format or object id hash
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Buyers category data
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Category'
+
+  /category/owner/{id}:
+    get:
+      summary: Get list of all categories owned by a user.
+      operationId: getCategoryOwner
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user uuid string
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          description: query page
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: All of owner categories
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/CategoryList'
+
+  /catalog/content/{id}:
+    get:
+      summary: Get linked content to the category.
+      operationId: getCatalogContent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: catalog hashId or url friendly string.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: All of owner categories
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/CategoryList'
+
+  /catalog/list/{id}:
+    get:
+      summary: Get list of public catalogs, all if don't have the id.
+      operationId: getCatalog
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: hashId or url friendly name of the tag.  Empty id will get all top level tags.
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          description: query page
+          schema:
+            type: integer
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo time marker to list catalogs newer than this
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: All of owner categories
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/CategoryList'
+
+  /product/{id}:
+    get:
+      summary: Get product brief info from id
+      operationId: getProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: product id string in friendly format or object id hash
+          schema:
+            type: string
+        - name: userid
+          in: query
+          required: true
+          description: user id to get product from the user
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product brief info
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Product'
+
+  /product/list/{regCode}:
+    get:
+      summary: Get the next of most recent products header
+      operationId: getProductList
+      parameters:
+        - name: page
+          in: query
+          required: true
+          description: next page
+          schema:
+            type: integer
+        - name: regCode
+          in: path
+          required: true
+          description: region code such as vi, us
+          schema:
+            type: string
+        - name: region
+          in: query
+          required: true
+          description: region name or alias such as dongnai, dn
+          schema:
+            type: string
+        - name: seqNo
+          in: query
+          required: false
+          description: seqNo time marker to list deals newer than this
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: List of products
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/ProductList'
+
+  /product/cat/{id}:
+    get:
+      summary: Get info for market category (e.g. luagao)
+      operationId: getProductCategory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: product category string
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          description: next page
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Product category data
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Category'
+
+  /market:
+    get:
+      summary: Get market dashboard
+      operationId: getMarket
+      responses:
+        '200':
+          description: Market dashboard
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/DashBoard'
+
+  /market/deals:
+    get:
+      summary: Get market deals dashboard.  The difference between market EP is the inventory.
+      operationId: getMarketDeals
+      responses:
+        '200':
+          description: Market deals dashboard
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/KeoDash'
+
+  /market/sellers:
+    get:
+      summary: Get market sellers dashboard.  The difference between market EP is the inventory.
+      operationId: getMarketSellers
+      responses:
+        '200':
+          description: Market sellers dashboard
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/SellerDash'
+
+  /market/buyers:
+    get:
+      summary: Get market buyers dashboard.  The difference between market EP is the inventory.
+      operationId: getMarketBuyers
+      responses:
+        '200':
+          description: Market buyers dashboard
+          content:
+            application/json:
+              schema:
+                $ref: 'screen.yaml#/components/schemas/BuyerDash'
+
+  /items/get:
+    post:
+      summary: Get summarized headers from items in the list
+      operationId: postItemsGet
+      requestBody:
+        description: give list of ids to fetch headers
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: list of headers from items in the list
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/HeaderList'
+
+  /items/list:
+    post:
+      summary: Get detail object for each item id
+      operationId: postItemsList
+      requestBody:
+        description: give list of item ids to fetch detail data
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/ItemIdList'
+      responses:
+        '200':
+          description: detail for each item id
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/DashData'
+
+  /region/list/{regCode}:
+    get:
+      summary: Get region info from country code.
+      operationId: getRegionList
+      parameters:
+        - name: regCode
+          in: path
+          required: true
+          description: country code such as vi, usa
+          schema:
+            type: string
+        - name: seqno
+          in: query
+          required: false
+          description: cached sequence no version of records.
+          schema:
+            type: integer
+            format: uint64
+      responses:
+        '200':
+          description: Region info list
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/RegionList'
+
+  /region/info/{regCode}:
+    get:
+      summary: Get region info from country code and region key.
+      operationId: getRegionInfo
+      parameters:
+        - name: region
+          in: query
+          required: true
+          description: region name such as dongnai
+          schema:
+            type: string
+        - name: regCode
+          in: path
+          required: true
+          description: region code such as vi
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Region info list
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/RegionList'
+
+  /region/keywords/{regCode}:
+    get:
+      summary: Get region keywords for user autocomplete
+      operationId: getRegionKeywords
+      parameters:
+        - name: regCode
+          in: path
+          required: true
+          description: country code such as vi, usa
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Region keywords list
+          content:
+            application/json:
+              schema:
+                $ref: 'models-brief.yaml#/components/schemas/KeywordList'
+
+  /legal/term:
+    post:
+      summary: Post list of legal term keywords to get definitions.
+      operationId: getLegalTerms
+      requestBody:
+        description: keyword list.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models-brief.yaml#/components/schemas/Keywords'
+      responses:
+        '200':
+          description: Legal term definition list.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-legal.yaml#/components/schemas/TermList'
+
+  /legal/contract/{userUuid}:
+    get:
+      summary: Get region keywords for user autocomplete
+      operationId: getUserLegalContract
+      parameters:
+        - name: userUuid
+          in: path
+          required: true
+          description: contract owner uuid.
+          schema:
+            type: string
+        - name: name
+          in: query
+          required: true
+          description: contract name/id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User contract
+          content:
+            application/json:
+              schema:
+                $ref: 'models-legal.yaml#/components/schemas/Contract'
+
+  /topic/uuid/{tagUuid}:
+    get:
+      summary: Get all articles having the same chapter as parent.
+      operationId: getTopicChapter
+      parameters:
+        - name: tagUuid
+          in: path
+          required: true
+          description: tagUuid parent of all articles in the chapter.
+          schema:
+            type: string
+        - name: timeStamp
+          in: query
+          required: false
+          description: time stamp to request articles newer than this timeStamp.
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Article list having parentIds matching the tagUuid.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/ArticleList'
+
+  /topic/list/{title}:
+    get:
+      summary: list all sub topic matching the url friendly title.
+      operationId: getTopicList
+      parameters:
+        - name: title
+          in: path
+          required: true
+          description: topic name in url friendly concatenate to path with / escape by %2F
+          example: topic-abc-def%2Fsub-topic-1%2Fsub-topic-abc%2Fsub-of-sub
+          schema:
+            type: string
+        - name: timeStamp
+          in: query
+          required: false
+          description: time stamp to request subtopic newer than this timeStamp.
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Article list having parentIds matching the tagUuid.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/ArticleList'
+
+  /art/{title}:
+    get:
+      summary: Get the article via search engine friendly url.
+      operationId: getArticle
+      parameters:
+        - name: title
+          in: path
+          required: true
+          description: title string separated by -
+          schema:
+            type: string
+      responses:
+        '200':
+          description: return the article content.
+          content:
+            application/json:
+              schema:
+                $ref: 'models-user.yaml#/components/schemas/Article'

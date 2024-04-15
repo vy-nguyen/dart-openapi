@@ -1,0 +1,360 @@
+openapi: 3.0.2
+info:
+  title: SealTrust Public REST API
+  description: SealTrust backend public REST API
+  termsOfService: 'https://sealtrust.io/terms/'
+  contact:
+    email: api@sealtrust.com
+  license:
+    name: Private
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8070
+
+components:
+  schemas:
+    ItemLink:
+      $ref: 'models-screen.yaml#/components/schemas/ItemLink'
+    CustList:
+      $ref: 'models-user.yaml#/components/schemas/CustList'
+    ArticleList:
+      $ref: 'models-user.yaml#/components/schemas/ArticleList'
+    NotifyList:
+      $ref: 'models-user.yaml#/components/schemas/NotifyList'
+    MessageList:
+      $ref: 'models-user.yaml#/components/schemas/MessageList'
+    KeyLink:
+      $ref: 'models-user.yaml#/components/schemas/KeyLink'
+
+paths:
+  ########## Public API paths ###################################################
+  #
+  /public/landing:
+    $ref: 'public-api.yaml#/paths/~1landing'
+
+  /public/dashboard/{page}:
+    $ref: 'public-api.yaml#/paths/~1dashboard~1%7Bpage%7D'
+
+  /public/dashboard/deal/{id}:
+    $ref: 'public-api.yaml#/paths/~1dashboard~1deal~1%7Bid%7D'
+
+  /public/dashboard/seller/{id}:
+    $ref: 'public-api.yaml#/paths/~1dashboard~1seller~1%7Bid%7D'
+
+  /public/dashboard/buyer/{id}:
+    $ref: 'public-api.yaml#/paths/~1dashboard~1buyer~1%7Bid%7D'
+
+
+  /public/deal/info/{id}:
+    $ref: 'public-api.yaml#/paths/~1deal~1info~1%7Bid%7D'
+
+  /public/deal/list/{regCode}:
+    $ref: 'public-api.yaml#/paths/~1deal~1list~1%7BregCode%7D'
+
+  /public/seller/{id}:
+    $ref: 'public-api.yaml#/paths/~1seller~1%7Bid%7D'
+
+  /public/seller/list/{regCode}:
+    $ref: 'public-api.yaml#/paths/~1seller~1list~1%7BregCode%7D'
+
+  /public/buyer/{id}:
+    $ref: 'public-api.yaml#/paths/~1buyer~1%7Bid%7D'
+
+  /public/buyer/list/{regCode}:
+    $ref: 'public-api.yaml#/paths/~1buyer~1list~1%7BregCode%7D'
+
+
+  /public/category/info/{id}:
+    $ref: 'public-api.yaml#/paths/~1category~1info~1%7Bid%7D'
+
+  /public/category/list/{regCode}:
+    $ref: 'public-api.yaml#/paths/~1category~1list~1%7BregCode%7D'
+
+  /public/category/user/{id}:
+    $ref: 'public-api.yaml#/paths/~1category~1user~1%7Bid%7D'
+
+  /public/category/owner/{id}:
+    $ref: 'public-api.yaml#/paths/~1category~1owner~1%7Bid%7D'
+
+  /public/catalog/list/{id}:
+    $ref: 'public-api.yaml#/paths/~1catalog~1list~1%7Bid%7D'
+
+  /public/catalog/content/{id}:
+    $ref: 'public-api.yaml#/paths/~1catalog~1content~1%7Bid%7D'
+
+  /public/product/{id}:
+    $ref: 'public-api.yaml#/paths/~1product~1%7Bid%7D'
+
+  /public/product/list/{regCode}:
+    $ref: 'public-api.yaml#/paths/~1product~1list~1%7BregCode%7D'
+
+  /public/product/cat/{id}:
+    $ref: 'public-api.yaml#/paths/~1product~1cat~1%7Bid%7D'
+
+
+  /public/market:
+    $ref: 'public-api.yaml#/paths/~1market'
+
+  /public/market/deals:
+    $ref: 'public-api.yaml#/paths/~1market~1deals'
+
+  /public/market/sellers:
+    $ref: 'public-api.yaml#/paths/~1market~1sellers'
+
+  /public/market/buyers:
+    $ref: 'public-api.yaml#/paths/~1market~1buyers'
+
+  /public/items/get:
+    $ref: 'public-api.yaml#/paths/~1items~1get'
+
+  /public/items/list:
+    $ref: 'public-api.yaml#/paths/~1items~1list'
+
+  /public/legal/term:
+    $ref: 'public-api.yaml#/paths/~1legal~1term'
+
+  /public/legal/contract/{userUuid}:
+    $ref: 'public-api.yaml#/paths/~1legal~1contract~1%7BuserUuid%7D'
+
+  /public/topic/uuid/{tagUuid}:
+    $ref: 'public-api.yaml#/paths/~1topic~1uuid~1%7BtagUuid%7D'
+
+  /public/topic/list/{title}:
+    $ref: 'public-api.yaml#/paths/~1topic~1list~1%7Btitle%7D'
+
+  /public/art/{title}:
+    $ref: 'public-api.yaml#/paths/~1art~1%7Btitle%7D'
+
+  ########## Public Region paths #################################################
+  # Important: paths from here must match exactly in the ref file; otherwise, the tool will
+  # not generate the correct code:
+  # Don't include query params to the path.
+  #
+  /public/region/keywords/{regCode}:
+    $ref: 'public-api.yaml#/paths/~1region~1keywords~1%7BregCode%7D'
+
+  /public/region/list/{regCode}:
+    $ref: 'public-api.yaml#/paths/~1region~1list~1%7BregCode%7D'
+
+  /public/region/info/{regCode}:
+    $ref: 'public-api.yaml#/paths/~1region~1info~1%7BregCode%7D'
+
+  ########## User API paths #####################################################
+  #
+  /u/dashboard:
+    $ref: 'user-api.yaml#/paths/~1dashboard'
+
+  /u/dashboard/gen:
+    $ref: 'user-api.yaml#/paths/~1dashboard~1gen'
+
+  /u/dashboard/op:
+    $ref: 'user-api.yaml#/paths/~1dashboard~1op'
+
+  /u/dashboard/seller:
+    $ref: 'user-api.yaml#/paths/~1dashboard~1seller'
+
+  /u/dashboard/seller/op:
+    $ref: 'user-api.yaml#/paths/~1dashboard~1seller~1op'
+
+  /u/dashboard/buyer:
+    $ref: 'user-api.yaml#/paths/~1dashboard~1buyer'
+
+  /u/dashboard/buyer/op:
+    $ref: 'user-api.yaml#/paths/~1dashboard~1buyer~1op'
+
+  /u/dashboard/deal:
+    $ref: 'user-api.yaml#/paths/~1dashboard~1deal'
+
+  /u/dashboard/deal/op:
+    $ref: 'user-api.yaml#/paths/~1dashboard~1deal~1op'
+
+  ## Category ##############################################
+  ##
+  /u/category/info/{id}:
+    $ref: 'user-api.yaml#/paths/~1category~1info~1%7Bid%7D'
+
+  /u/category/list:
+    $ref: 'user-api.yaml#/paths/~1category~1list'
+
+  /u/category/op/{id}:
+    $ref: 'user-api.yaml#/paths/~1category~1op~1%7Bid%7D'
+
+  /u/legal/contract/{template}:
+    $ref: 'user-api.yaml#/paths/~1legal~1contract~1%7Btemplate%7D'
+
+  /u/ads/article:
+    $ref: 'user-api.yaml#/paths/~1ads~1article'
+
+  ########## V1 User API paths ###################################################
+  #
+  /v1/dashboard:
+    $ref: 'v1-user-api.yaml#/paths/~1dashboard'
+
+  ## Seller
+  /v1/profile/seller:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1seller'
+
+  /v1/profile/seller/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1seller~1%7Bid%7D'
+
+  /v1/profile/delete/seller/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1delete~1seller~1%7Bid%7D'
+
+  /v1/profile/op/seller:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1op~1seller'
+
+  /v1/profile/list/seller/{region}:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1list~1seller~1%7Bregion%7D'
+
+  /v1/profile/refs/seller/{region}:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1refs~1seller~1%7Bid%7D'
+
+  ## Buyer
+  /v1/profile/buyer:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1buyer'
+
+  /v1/profile/buyer/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1buyer~1%7Bid%7D'
+
+  /v1/profile/op/buyer:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1op~1buyer'
+
+  /v1/profile/list/buyer/{region}:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1list~1buyer~1%7Bregion%7D'
+
+  ## User/Customer
+  /v1/profile/op/user:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1op~1user'
+
+  /v1/profile/list/customer/{region}:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1list~1customer~1%7Bregion%7D'
+
+  /v1/profile/customer/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1customer~1%7Bid%7D'
+
+  /v1/profile/user/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1user~1%7Bid%7D'
+
+  /v1/profile/customer:
+    $ref: 'v1-user-api.yaml#/paths/~1profile~1customer'
+
+  ## Product
+  /v1/product:
+    $ref: 'v1-user-api.yaml#/paths/~1product'
+
+  /v1/product/info/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1product~1info~1%7Bid%7D'
+
+  /v1/product/refs/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1product~1refs~1%7Bid%7D'
+
+  /v1/product/delete/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1product~1delete~1%7Bid%7D'
+
+  /v1/product/list/{region}:
+    $ref: 'v1-user-api.yaml#/paths/~1product~1list~1%7Bregion%7D'
+
+  /v1/product/op:
+    $ref: 'v1-user-api.yaml#/paths/~1product~1op'
+
+  /v1/products/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1products~1%7Bid%7D'
+
+  ## Deal
+  /v1/deal/info/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1info~1%7Bid%7D'
+
+  /v1/deal/info:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1info'
+
+  /v1/deal/delete/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1delete~1%7Bid%7D'
+
+  /v1/deal/op:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1op'
+
+  /v1/deal/refs/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1refs~1%7Bid%7D'
+
+  /v1/deal/list/{region}:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1list~1%7Bregion%7D'
+
+  /v1/deal/list/owner/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1list~1owner~1%7Bid%7D'
+
+  /v1/deal/list/product/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1list~1product~1%7Bid%7D'
+
+  /v1/deal/owner/{uuid}:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1owner~1%7Buuid%7D'
+
+  /v1/deal/product/{prodId}:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1product~1%7BprodId%7D'
+
+  ## DealTx
+  /v1/deal/tx:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1tx'
+
+  /v1/deal/tx/owner/{dealId}:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1tx~1owner~1%7BdealId%7D'
+
+  /v1/deal/tx/product/{prodHash}:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1tx~1product~1%7BprodHash%7D'
+
+  /v1/deal/tx/deal/{dealHash}:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1tx~1deal~1%7BdealHash%7D'
+
+  /v1/deal/tx/list/{id}:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1tx~1list~1%7Bid%7D'
+
+  /v1/deal/tx/id/{hashId}:
+    $ref: 'v1-user-api.yaml#/paths/~1deal~1tx~1id~1%7BhashId%7D'
+
+  ## Sync
+  /v1/sync:
+    $ref: 'v1-user-api.yaml#/paths/~1sync'
+
+  /v1/sync/account:
+    $ref: 'v1-user-api.yaml#/paths/~1sync~1account'
+
+  /v1/sync/server/stats:
+    $ref: 'v1-user-api.yaml#/paths/~1sync~1server~1stats'
+
+  /v1/sync/client./stats:
+    $ref: 'v1-user-api.yaml#/paths/~1sync~1client~1stats'
+
+  /v1/startup:
+    $ref: 'v1-user-api.yaml#/paths/~1startup'
+
+  ########## Admin API paths #####################################################
+  #
+  /admin/market/deals:
+    $ref: 'admin-api.yaml#/paths/~1market~1deals'
+
+  /admin/market/sellers:
+    $ref: 'admin-api.yaml#/paths/~1market~1sellers'
+
+  /admin/market/buyers:
+    $ref: 'admin-api.yaml#/paths/~1market~1buyers'
+
+  /admin/region:
+    $ref: 'admin-api.yaml#/paths/~1region'
+
+  /admin/legal/terms:
+    $ref: 'admin-api.yaml#/paths/~1legal~1terms'
+
+  /admin/legal/contract:
+    $ref: 'admin-api.yaml#/paths/~1legal~1contract'
+
+  /admin/landing:
+    $ref: 'admin-api.yaml#/paths/~1landing'
+
+  /admin/category/{id}:
+    $ref: 'admin-api.yaml#/paths/~1category~1%7Bid%7D'
+
+  /admin/catalog/{id}:
+    $ref: 'admin-api.yaml#/paths/~1catalog~1%7Bid%7D'
+
+  /admin/article:
+    $ref: 'admin-api.yaml#/paths/~1article'
